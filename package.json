@@ -2,7 +2,7 @@
   "name": "athletiq",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=18" },
+  "engines": { "node": "22.x" },
   "scripts": {
     "install:all": "npm install --prefix server && npm install --prefix client",
     "dev:server": "npm run dev --prefix server",
