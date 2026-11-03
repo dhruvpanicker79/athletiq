@@ -1,0 +1,7 @@
+.tools
+.data
+**/.data
+**/node_modules
+**/dist
+**/.env
+start.bat
