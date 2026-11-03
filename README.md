@@ -50,7 +50,7 @@ The built-in local DB (`server/config/localdb.js`) is a small MongoDB wire-proto
 Change the admin credentials in `server/.env` before seeding. `npm run seed` **wipes and re-creates** all data.
 
 ### Deploy to Vercel
-1. Push this repo to GitHub, then in Vercel choose **Add New → Project** and import it. Leave the root directory as `/`. `vercel.json` already sets the install and build commands, the output directory, the `/api` serverless function and the SPA rewrites.
+1. Push this repo to GitHub, then in Vercel choose **Add New → Project** and import it. Leave the root directory as `/`. `vercel.json` defines two [services](https://vercel.com/docs/services) on one domain: `client` (Vite, served at `/`) and `server` (Express from `server/app.js`, served at `/api/*`).
 2. Under **Environment Variables**, add `JWT_SECRET` (any long random string). Optionally add `MONGO_URI` (Atlas) for permanent storage. Without it, the built-in DB re-seeds demo data whenever Vercel starts a new instance.
 3. Click **Deploy**.
 

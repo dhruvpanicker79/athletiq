@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "main": "index.js",
+  "engines": { "node": "22.x" },
   "scripts": {
     "dev": "node --watch index.js",
     "start": "node index.js",

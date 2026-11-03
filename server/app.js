@@ -1,4 +1,4 @@
-// Express app, shared by the local server (index.js) and the Vercel function (/api/index.js)
+// Express app: the local server (index.js) listens on it; on Vercel the "server" service uses this default export
 import 'dotenv/config';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -33,7 +33,14 @@ app.use(cookieParser());
 app.use(sanitize);
 app.use('/api', rateLimit({ windowMs: 15 * 60 * 1000, limit: 1500, standardHeaders: 'draft-7', legacyHeaders: false }));
 
+// The public /api/* rewrite may arrive with or without its prefix; normalise so routes always see /api/...
+if (process.env.VERCEL) app.use((req, res, next) => {
+  if (!req.url.startsWith('/api/') && req.url !== '/api') req.url = `/api${req.url === '/' ? '' : req.url}`;
+  next();
+});
 app.get('/api/health', (req, res) => res.json({ ok: true }));
+// Connect (and seed an empty DB) lazily, so serverless cold starts work without a separate startup step
+app.use('/api', (req, res, next) => ready().then(() => next(), next));
 app.use('/api', routes);
 
 // Serve the built client when self-hosting (on Vercel the CDN serves it)
